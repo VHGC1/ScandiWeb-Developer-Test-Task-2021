@@ -7,21 +7,13 @@ $db = $database->getConnection();
 
 $product = new Product($db);
 
-
-
-
 if ($_GET) {
-  //$product->table_name = $_GET['Type-Switcher'];
-  //$product->sku = $_GET['sku'];
-  //$product->name = $_GET['name'];
-  //$product->price = number_format((float)$_GET['price'],2);
+  $product->table_name = $_GET['Type-Switcher'];
+  $product->sku = $_GET['sku'];
+  $product->name = $_GET['name'];
+  $product->price = number_format((float)$_GET['price'],2);
 
-  echo $_GET['sku'];
-  echo $_GET['name'];
-  echo number_format((float)$_GET['price'],2);
-  echo $_GET['Type-Switcher'];
-  
-  /*
+ 
   if ($_GET['Type-Switcher'] == 'books') {
     $product->attribute = $_GET['book'];
   }
@@ -38,6 +30,5 @@ if ($_GET) {
   } else {
     header('Location: /add-product.html');
   }
-  */
 }
 
