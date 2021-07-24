@@ -26,11 +26,11 @@
         <div class="form-container">
           <div class="form-control">
             <label for="sku">SKU</label>
-            <input name="sku" id="sku" type="text"  />
+            <input name="sku" id="sku" type="text"  required/>
             <label for="name">Name</label>
-            <input name="name" id="name" type="text"  />
+            <input name="name" id="name" type="text"  required/>
             <label for="price">Price ($)</label>
-            <input name="price" id="price" type="text"  />
+            <input name="price" id="price" type="text"  required/>
             <label for="Type-Switcher">Type Switcher</label>
             <select name="Type-Switcher" id="productType">
               <option id="Book" value="books">Book</option>
