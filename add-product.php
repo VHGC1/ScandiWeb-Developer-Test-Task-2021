@@ -56,7 +56,7 @@
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors = [];
 
-        $url = "./php/new_product.php?sku={$_POST['sku']}&name={$_POST['name']}&price={$_POST['price']}&Type-Switcher={$_POST['Type-Switcher']}";
+        $url = "/php/new_product.php?sku={$_POST['sku']}&name={$_POST['name']}&price={$_POST['price']}&Type-Switcher={$_POST['Type-Switcher']}";
 
         if (preg_match("/^[A-Za-z0-9]/",$_POST['sku'])) {
           foreach($skuValues as $skuValues){
@@ -108,8 +108,8 @@
               ";
             }
         }
-        
-        if(empty($errors)){
+
+        if(count($errors) == 0){
           header("Location: {$url}");
         }
       }
