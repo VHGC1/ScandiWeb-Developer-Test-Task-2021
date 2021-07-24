@@ -67,7 +67,7 @@ class Product{
           <p>{$sku}</p>
           <p>{$name}</p>
           <p>{$price} $</p>
-          <p>Weight: {$attribute}</p>
+          <p>Weight: {$attribute} KG</p>
         </div>
       </div>";
     }
@@ -91,7 +91,7 @@ class Product{
           <p>{$sku}</p>
           <p>{$name}</p>
           <p>{$price} $</p>
-          <p>Size: {$attribute}</p>
+          <p>Size: {$attribute} MB</p>
         </div>
       </div>";
     }
