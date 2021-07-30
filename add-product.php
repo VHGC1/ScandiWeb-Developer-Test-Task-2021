@@ -33,8 +33,8 @@
             <input name="price" id="price" type="text"  required/>
             <label for="Type-Switcher">Type Switcher</label>
             <select name="Type-Switcher" id="productType">
-              <option id="Book" value="books">Book</option>
-              <option id="DVD" value="dvds">DVD</option>
+              <option id="Book" value="book">Book</option>
+              <option id="DVD" value="dvd">DVD</option>
               <option id="Furniture" value="furniture">Furniture</option>
             </select>
             <div id="type" class="type">
@@ -43,6 +43,7 @@
         </div>
       </form>
       <?php 
+      
       include_once $_SERVER['DOCUMENT_ROOT']. '/config/database.php';
       include_once $_SERVER['DOCUMENT_ROOT']. '/objects/product.php';
       
@@ -51,20 +52,26 @@
       
       $product = new Product($db);
 
-      $skuValues = $product->readSku();
+      $skuValues = $product->getSku();
 
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $url .= "&attribute={$_POST['height']}x{$_POST['width']}x{$_POST['length']}";
+        echo $url;
         $errors = [];
 
         $url = "/php/new_product.php?sku={$_POST['sku']}&name={$_POST['name']}&price={$_POST['price']}&Type-Switcher={$_POST['Type-Switcher']}";
 
         if (preg_match("/^[A-Za-z0-9]/",$_POST['sku'])) {
+          /*
           foreach($skuValues as $skuValues){
             if($_POST['sku'] == $skuValues){
               echo "the sku must be unique<br>";
+              
               array_push($errors, $_POST['sku']);
             }
+            
           }
+          */
         }else {
           echo "the sku must contain only letters and numbers<br>";
         }
@@ -79,21 +86,21 @@
           array_push($errors,$_POST['price']);
         }
         
-        if ($_POST['Type-Switcher'] == 'books') {
+        if ($_POST['Type-Switcher'] == 'book') {
           if(!is_numeric($_POST['book'])){
             echo "Weight not a number<br>";
             array_push($errors, $_POST['book']);
           }else {
-            $url .= "&book={$_POST['book']}";
+            $url .= "&attribute={$_POST['book']}";
           }  
         }
         
-        if ($_POST['Type-Switcher'] == 'dvds') {
+        if ($_POST['Type-Switcher'] == 'dvd') {
           if(!is_numeric($_POST['dvd'])){
             echo "Size not a number<br>";
             array_push($errors, $_POST['dvd']);
           }else {
-            $url .= "&dvd={$_POST['dvd']}";
+            $url .= "&attribute={$_POST['dvd']}";
           }
         }
 
@@ -102,23 +109,22 @@
               echo "Dimension not a number<br>";
               array_push($errors, $_POST['height']);
             }else {
-              $url .= "&height={$_POST['height']}
-                    &width={$_POST['width']}
-                    &length={$_POST['length']}
-              ";
+              $url .= "&attribute={$_POST['height']}x{$_POST['width']}x{$_POST['length']}";
             }
         }
 
         if(count($errors) == 0){
-          header("Location: {$url}");
+         header("Location: {$url}");
         }
       }
+
     ?>
       <hr />
     </main>
     <footer>
       <span>Scandiweb Test assignment</span>
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="./js/type.js"></script>
     
   </body>

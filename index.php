@@ -28,19 +28,38 @@ include_once $_SERVER['DOCUMENT_ROOT']. '/objects/product.php';
       <hr>
       <div class="product_container">
       <?php
+        
+
+
         $database = new Database();
         $db = $database->getConnection();
           
         $product = new Product($db);
-        
-        $product->readBooks();
-        $product->readDvds();
-        $product->readFurniture();
-        $product->readSku();
+                
+        foreach($product->getProducts() as $products){
+          $id = $products['id'];
+          $sku = $products['sku'];
+          $name = $products['name'];
+          $price =  $products['price'];
+          $type = $products['type'];
+          $attribute = $products['attribute'];
+         
+          echo "
+            <div class='product_card' id='{$id}'>
+              <div class='checkbox_delete'>
+                <input class='delete-checkbox' type='checkbox' name='' id=''>
+              </div>
+            <div class='product_info'>
+              <p>{$sku}</p>
+              <p>{$name}</p>
+              <p>{$price} $</p>
+              <p>{$attribute}</p>
+            </div>
+          </div>";
+        }
       ?>
       </div>
-      
-    
+      </div>  
       <hr>
   </main>
 

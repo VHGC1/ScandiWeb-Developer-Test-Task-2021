@@ -12,7 +12,7 @@
 		$elementsIndividual = explode("-",$elementsToDelete);
 		foreach($elementsIndividual as $element){	
 			$elementMap = explode("_",$element);
-			$product->delete($elementMap[0], $elementMap[1]);
+			$product->delete($element);
 		}
 		header("Location: ../index.php");
     exit;

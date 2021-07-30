@@ -1,12 +1,12 @@
 <?php
 class Product{
   private $conn;
-  
-  public $table_name;
+  private $table_name = "products";
 
   public $sku;
   public $name;
   public $price;
+  public $type;
   public $attribute;
 
   public function __construct($db){
@@ -18,18 +18,20 @@ class Product{
     $query = "INSERT INTO
       " . $this->table_name . "
       SET
-        sku=:sku, name=:name, price=:price, attribute=:attribute";
+        sku=:sku, name=:name, price=:price, type=:type, attribute=:attribute";
 
     $stmt = $this->conn->prepare($query);
 
     $this->sku = htmlspecialchars(strip_tags($this->sku));
     $this->name = htmlspecialchars(strip_tags($this->name));
     $this->price = htmlspecialchars(strip_tags($this->price));
+    $this->type = htmlspecialchars(strip_tags($this->type));
     $this->attribute = htmlspecialchars(strip_tags($this->attribute));
     
     $stmt->bindParam(":sku", $this->sku);
     $stmt->bindParam(":name", $this->name);
     $stmt->bindParam(":price", $this->price);
+    $stmt->bindParam(":type", $this->type);
     $stmt->bindParam(":attribute", $this->attribute);
 
     if ($stmt->execute()) {
@@ -39,94 +41,33 @@ class Product{
     }
   }
 
-  function delete($table_name, $sku){
+  function delete($id){
     
-    $query = "DELETE FROM ".$table_name." WHERE sku='{$sku}'";
+    $query = "DELETE FROM products WHERE id='{$id}'";
     
     $stmt = $this->conn->prepare($query);
    
     $stmt->execute();
   }
 
-  function readBooks(){
-    
-    $query = "SELECT * FROM books";
+  function getProducts(){
+    $products = [];
+
+    $query = "SELECT * FROM products";
 
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      extract($row);
-      
-      echo "
-        <div class='product_card' id=\"books_".$sku."\">
-          <div class='checkbox_delete'>
-            <input class='delete-checkbox' type='checkbox' name='' id=''>
-          </div>
-        <div class='product_info'>
-          <p>{$sku}</p>
-          <p>{$name}</p>
-          <p>{$price} $</p>
-          <p>Weight: {$attribute} KG</p>
-        </div>
-      </div>";
+      array_push($products, $row);
     }
+    return $products;
   }
 
-  function readDvds(){
-    $query = "SELECT * FROM dvds";
-
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute();
-
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      extract($row);
-      
-      echo "
-        <div class='product_card' id=\"dvds_".$sku."\">
-          <div class='checkbox_delete'>
-            <input class='delete-checkbox' type='checkbox' name='' id=''>
-          </div>
-        <div class='product_info'>
-          <p>{$sku}</p>
-          <p>{$name}</p>
-          <p>{$price} $</p>
-          <p>Size: {$attribute} MB</p>
-        </div>
-      </div>";
-    }
-  }
-
-  function readFurniture(){
-    $query = "SELECT * FROM furniture";
-
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute();
-
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      extract($row);
-      
-      echo "
-        <div class='product_card' id=\"furniture_".$sku."\">
-          <div class='checkbox_delete'>
-            <input class='delete-checkbox' type='checkbox' name='' id=''>
-          </div>
-        <div class='product_info'>
-          <p>{$sku}</p>
-          <p>{$name}</p>
-          <p>{$price} $</p>
-          <p>Dimensions: {$attribute}</p>
-        </div>
-      </div>";
-    }
-  }
-
-  function readSku(){
+  function getSku(){
     $skus = [];
 
-    $query = "SELECT sku FROM `dvds` UNION 
-              SELECT sku FROM `books` UNION 
-              SELECT sku from `furniture`";
+    $query = "SELECT sku FROM `products`";
 
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
@@ -138,5 +79,7 @@ class Product{
     return $skus;
   }
 }
+
+
 
  
