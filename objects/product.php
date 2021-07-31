@@ -13,6 +13,34 @@ class Product{
     $this->conn = $db;
   }
 
+  public function setSku($sku){
+    $this->sku = $sku;
+  }
+
+  public function setName($name){
+    $this->name = $name;
+  }
+
+  public function setType($type){
+    $this->type = $type;
+  }
+
+  public function setPrice($price){
+    $this->price = $price;
+  }
+
+  public function setWeigth($weight){
+    $this->attribute = $weight;
+  }
+
+  public function setSize($size){
+    $this->attribute = $size;
+  }
+
+  public function setDimensions($height, $width, $length){
+    $this->attribute = "{$height}x{$width}x{$length}";
+  }
+
   function create(){
     
     $query = "INSERT INTO
@@ -62,24 +90,55 @@ class Product{
       array_push($products, $row);
     }
     return $products;
+  }  
+}
+
+class book extends Product{
+  function __construct($db){
+    parent::__construct($db);
   }
 
-  function getSku(){
-    $skus = [];
+  public function getSpecs($arr){
+    $this->setSku($arr['sku']);
+    $this->setName($arr['name']);
+    $this->setPrice(number_format((float)$arr['price'],2));
+    $this->setType($arr['Type-Switcher']);
+    $this->setWeigth($arr['weight']);
+    var_dump($arr);
 
-    $query = "SELECT sku FROM `products`";
+    return $this->create();
+  } 
+}
 
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute();
+class dvd extends Product {
+  function __construct($db){
+    parent::__construct($db);
+  }
 
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      extract($row);
-      array_push($skus, $sku);
-    }
-    return $skus;
+  public function getSpecs($arr){
+    $this->setSku($arr['sku']);
+    $this->setName($arr['name']);
+    $this->setPrice(number_format((float)$arr['price'],2));
+    $this->setSize($arr['size']);
+
+    return $this->create();
   }
 }
 
+class furniture extends Product {
+  function __construct($db){
+    parent::__construct($db);
+  }
+
+  public function getSpecs($arr){
+    $this->setSku($arr['sku']);
+    $this->setName($arr['name']);
+    $this->setPrice(number_format((float)$arr['price'],2));
+    $this->setDimensions($arr['height'],$arr['width'],$arr['length']);
+
+    return $this->create();
+  }
+}
 
 
  

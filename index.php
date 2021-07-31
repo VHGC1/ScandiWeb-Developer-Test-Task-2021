@@ -1,6 +1,7 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT']. '/config/database.php';
 include_once $_SERVER['DOCUMENT_ROOT']. '/objects/product.php';
+include_once $_SERVER['DOCUMENT_ROOT']. '/objects/view_type.php';
 ?>
 
 
@@ -21,8 +22,8 @@ include_once $_SERVER['DOCUMENT_ROOT']. '/objects/product.php';
       <header>
         <h1>Product List</h1>
         <div>
-          <a class="button" href="add-product.php">ADD</a>
-          <button class="button" value="MASS DELETE" onclick=massDelete()>MASS DELETE</button>
+          <a class="button add_button" href="add-product.html">ADD</a>
+          <button class="button delete_button" value="MASS DELETE" onclick=massDelete()>MASS DELETE</button>
         </div>
       </header>
       <hr>
@@ -35,7 +36,8 @@ include_once $_SERVER['DOCUMENT_ROOT']. '/objects/product.php';
         $db = $database->getConnection();
           
         $product = new Product($db);
-                
+        
+        
         foreach($product->getProducts() as $products){
           $id = $products['id'];
           $sku = $products['sku'];
@@ -43,7 +45,8 @@ include_once $_SERVER['DOCUMENT_ROOT']. '/objects/product.php';
           $price =  $products['price'];
           $type = $products['type'];
           $attribute = $products['attribute'];
-         
+          $typeView = new $type();
+          
           echo "
             <div class='product_card' id='{$id}'>
               <div class='checkbox_delete'>
@@ -53,7 +56,7 @@ include_once $_SERVER['DOCUMENT_ROOT']. '/objects/product.php';
               <p>{$sku}</p>
               <p>{$name}</p>
               <p>{$price} $</p>
-              <p>{$attribute}</p>
+              <p>{$typeView->typeHandler($attribute)}</p>
             </div>
           </div>";
         }
