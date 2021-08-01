@@ -2,6 +2,7 @@
 include_once $_SERVER['DOCUMENT_ROOT']. '/config/database.php';
 include_once $_SERVER['DOCUMENT_ROOT']. '/objects/product.php';
 include_once $_SERVER['DOCUMENT_ROOT']. '/objects/view_type.php';
+include_once $_SERVER['DOCUMENT_ROOT']. '/objects/view_products.php';
 ?>
 
 
@@ -29,37 +30,11 @@ include_once $_SERVER['DOCUMENT_ROOT']. '/objects/view_type.php';
       <hr>
       <div class="product_container">
       <?php
-        
-
-
         $database = new Database();
         $db = $database->getConnection();
-          
-        $product = new Product($db);
-        
-        
-        foreach($product->getProducts() as $products){
-          $id = $products['id'];
-          $sku = $products['sku'];
-          $name = $products['name'];
-          $price =  $products['price'];
-          $type = $products['type'];
-          $attribute = $products['attribute'];
-          $typeView = new $type();
-
-          echo "
-            <div class='product_card' id='{$id}'>
-              <div class='checkbox_delete'>
-                <input class='delete-checkbox' type='checkbox' name='' id=''>
-              </div>
-            <div class='product_info'>
-              <p>{$sku}</p>
-              <p>{$name}</p>
-              <p>{$price} $</p>
-              <p>{$typeView->typeHandler($attribute)}</p>
-            </div>
-          </div>";
-        }
+            
+        $view = new viewProducts($db);
+        $view->productsView();
       ?>
       </div>
       </div>  
