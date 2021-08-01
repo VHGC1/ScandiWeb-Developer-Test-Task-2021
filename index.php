@@ -46,7 +46,7 @@ include_once $_SERVER['DOCUMENT_ROOT']. '/objects/view_type.php';
           $type = $products['type'];
           $attribute = $products['attribute'];
           $typeView = new $type();
-          
+
           echo "
             <div class='product_card' id='{$id}'>
               <div class='checkbox_delete'>
