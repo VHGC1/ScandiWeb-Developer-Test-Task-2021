@@ -3,7 +3,7 @@ let select = document.getElementById("productType");
 
 type.innerHTML = `
   <label for="book">Weight (KG)</label>
-  <input name="weight" id="weight" type="text" required/>
+  <input name="weight" id="weight" type="text" pattern="^[0-9]*$" required/>
   <p>Please provide weight.</p>
 `;
 
